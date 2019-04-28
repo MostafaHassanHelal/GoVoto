@@ -1,4 +1,6 @@
 
 <label for="email"> Email : </label> <input type="text" name="email" #email/> 
 <label for="password"> Password : </label> <input type="password" name="password" #password/>
-<input type="submit"/>
+<input type="submit" value="Login" (click)="login(email.value,password.value)"/>
+
+<p style="color:red">{{error}}</p>
