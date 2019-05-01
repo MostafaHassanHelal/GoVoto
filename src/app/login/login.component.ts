@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { UserBloc } from '../BLoC/UserBloc';
 import { ApiService } from '../api.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -11,7 +12,7 @@ export class LoginComponent implements OnInit {
 
   error:string;
 
-  constructor(private  api : ApiService) {}
+  constructor(private  api : ApiService, private router:Router) {}
 
   ngOnInit() {
   }
@@ -22,6 +23,10 @@ export class LoginComponent implements OnInit {
       this.error = err.message;
     });
     console.log(UserBloc.user);
+
+    if(UserBloc.user!=null && UserBloc.user.api_token!=null){
+      this.router.navigate(["rules"]);
+    }
   }
 
 }

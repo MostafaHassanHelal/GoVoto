@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import {User} from "./POJSO/User"
 import { resolve } from 'q';
+import { Rule } from './POJSO/Rule';
 
 @Injectable({
   providedIn: 'root'
@@ -11,6 +12,8 @@ export class ApiService {
   static http:HttpClient;
   constructor(private http: HttpClient){ApiService.http = this.http}
 
+
+  //USER REQUESTS
   public static login(email:string, password:string):Promise<User>{
     let body = {"email":email,"password":password};
     return new Promise(resolve=>{
@@ -26,6 +29,31 @@ export class ApiService {
     return new Promise(resolve=>{
     ApiService.http.post("http://127.0.0.1:8000/api/user/logout?api_token="+api_token,{}).subscribe((success:ArrayBuffer)=>{
         resolve(success);
+      },err=>{
+        console.log(err);
+      });
+    });
+  }
+
+  public static vote(api_token:string, rule_id:number, vote:number):Promise<any>{
+    let body = {"rule_id":rule_id, "vote":vote};
+    return new Promise(resolve=>{
+      ApiService.http.post("http://127.0.0.1:8000/api/user/vote?api_token="+api_token,body).subscribe((success:ArrayBuffer)=>{
+        resolve(success);
+      },err=>{
+        console.log(err);
+      });
+    });
+  }
+
+
+  //RULES REQUESTS
+  public static getRules():Promise<Rule[]>{
+    return new Promise(resolve=>{
+      ApiService.http.get("http://127.0.0.1:8000/api/rules").subscribe((rules:ArrayBuffer[])=>{
+        let rulesList = rules.map<Rule>((rule:ArrayBuffer)=>Rule.fromJson(rule));
+        console.log(rulesList);
+        resolve();
       },err=>{
         console.log(err);
       });
