@@ -1,6 +1,7 @@
 <div *ngFor="let rule of rules">
   <h1>{{rule.title}}</h1>
   <p>{{rule.desc}}</p>
-  <button (click)=vote(rule.id,)>{{rule.votes_up}} Up Votes</button>
-  <button>{{rule.votes_down}} Down Votes</button>
+  <button (click)=vote(rule.id,1)>{{rule.votes_up}} Up Votes</button>
+  <button (click)=vote(rule.id,-1)>{{rule.votes_down}} Down Votes</button>
+  <p style="color:red">{{error_message}}</p>
 </div>

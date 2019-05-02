@@ -19,8 +19,10 @@ export class LoginComponent implements OnInit {
 
   async login(email:string, password:string){
     console.log("Login Clicked");
-    await UserBloc.login(email,password).catch((err:Error)=>{
-      this.error = err.message;
+    await UserBloc.login(email,password).then((val)=>{
+
+    },err=>{
+      this.error = err.error.message;
     });
     console.log(UserBloc.user);
 

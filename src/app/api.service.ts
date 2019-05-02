@@ -1,26 +1,26 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import {User} from "./POJSO/User"
-import { resolve } from 'q';
 import { Rule } from './POJSO/Rule';
+import { User } from './POJSO/User';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ApiService {
-  data: object;
+  
   static http:HttpClient;
+
   constructor(private http: HttpClient){ApiService.http = this.http}
 
 
   //USER REQUESTS
   public static login(email:string, password:string):Promise<User>{
     let body = {"email":email,"password":password};
-    return new Promise(resolve=>{
+    return new Promise((resolve,reject)=>{
     ApiService.http.post("http://127.0.0.1:8000/api/user/login",body).subscribe((user:ArrayBuffer)=>{
         resolve(User.fromJson(user));
       },err=>{
-        console.log(err);
+        reject(err);
       });
     });
   }
@@ -37,11 +37,11 @@ export class ApiService {
 
   public static vote(api_token:string, rule_id:number, vote:number):Promise<any>{
     let body = {"rule_id":rule_id, "vote":vote};
-    return new Promise(resolve=>{
-      ApiService.http.post("http://127.0.0.1:8000/api/user/vote?api_token="+api_token,body).subscribe((success:ArrayBuffer)=>{
+    return new Promise((resolve,reject)=>{
+      ApiService.http.post("http://127.0.0.1:8000/api/user/vote?api_token="+api_token, body).subscribe((success:ArrayBuffer)=>{
         resolve(success);
       },err=>{
-        console.log(err);
+        reject(err);
       });
     });
   }
@@ -52,8 +52,8 @@ export class ApiService {
     return new Promise(resolve=>{
       ApiService.http.get("http://127.0.0.1:8000/api/rules").subscribe((rules:ArrayBuffer[])=>{
         let rulesList = rules.map<Rule>((rule:ArrayBuffer)=>Rule.fromJson(rule));
-        console.log(rulesList);
-        resolve();
+        // console.log(rulesList);
+        resolve(rulesList);
       },err=>{
         console.log(err);
       });

@@ -13,6 +13,7 @@ export class Rule{
         this.votes_up = votes_up;
     }
 
+
     public static fromJson(rule:ArrayBuffer){
         return new Rule(
             rule["id"],
