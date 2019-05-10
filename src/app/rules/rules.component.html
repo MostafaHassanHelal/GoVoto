@@ -1,7 +1,17 @@
 <div *ngFor="let rule of rules">
   <h1>{{rule.title}}</h1>
   <p>{{rule.desc}}</p>
-  <button (click)=vote(rule.id,1)>{{rule.votes_up}} Up Votes</button>
-  <button (click)=vote(rule.id,-1)>{{rule.votes_down}} Down Votes</button>
-  <p style="color:red">{{error_message}}</p>
+
+  <div *ngIf="encrypted[rule.id]==true">
+    <div *ngFor="let option of rule.options">
+      <button (click)="vote(rule.id,option.id)">{{option.name}}</button>
+    </div>
+  </div>
+
+  <div *ngIf="encrypted[rule.id]==false">
+    <div *ngFor="let option of rule.options">
+      <p>{{option.name}} {{option.count}}</p>
+    </div>
+  </div>
 </div>
+<p style="color:red">{{error_message}}</p>

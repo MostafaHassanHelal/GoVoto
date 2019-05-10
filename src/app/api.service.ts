@@ -36,7 +36,7 @@ export class ApiService {
   }
 
   public static vote(api_token:string, rule_id:number, vote:number):Promise<any>{
-    let body = {"rule_id":rule_id, "vote":vote};
+    let body = {"rule_id":rule_id, "option_id":vote};
     return new Promise((resolve,reject)=>{
       ApiService.http.post("http://127.0.0.1:8000/api/user/vote?api_token="+api_token, body).subscribe((success:ArrayBuffer)=>{
         resolve(success);

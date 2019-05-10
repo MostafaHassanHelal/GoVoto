@@ -11,6 +11,7 @@ import { UserBloc } from '../BLoC/UserBloc';
 export class RulesComponent implements OnInit {
 
   rules:Rule[];
+  encrypted : Map<bigint,boolean> = new Map;
   error_message:string;
 
   constructor() {
@@ -18,6 +19,14 @@ export class RulesComponent implements OnInit {
     ApiService.getRules().then(rules=>{
       console.log("rules:"+rules);
       this.rules = rules;
+      console.log(typeof rules[0].options[0].count);
+      for(let i = 0; i<rules.length;i++){
+        if(typeof rules[i].options[0].count == "number"){
+          this.encrypted[Number(rules[i].id)] = false;
+        }else{
+          this.encrypted[Number(rules[i].id)] = true;
+        }
+      }
     });
   }
   
